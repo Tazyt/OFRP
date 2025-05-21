@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Operation Freedom Roleplay</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Discord widget fixed at bottom right */
+    .discord-widget-wrapper {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 350px;
+      height: 500px;
+      box-shadow: 0 0 20px rgba(198, 40, 40, 0.7);
+      border-radius: 12px;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .status-box {
+      display: none; /* Hide status box entirely */
+    }
+
+    html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  flex: 1;
+}
+
+main {
+  flex: 1; /* Pushes the footer down */
+}
+
+footer {
+  margin-top: auto;
+  background-color: #111;
+  color: #fff;
+  text-align: center;
+  padding: 15px 0;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    Operation Freedom Roleplay
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="status.html">Server Status</a>
+    <a href="https://discord.gg/KKkZgq6Pya" target="_blank">Discord</a>
+  </nav>
+
+  <section class="hero">
+    <h1>Welcome to Operation Freedom</h1>
+    <p>Military realism. Tactical RP. Elite operations. Your FiveM career starts now.</p>
+    <button class="btn" onclick="window.open('https://discord.gg/KKkZgq6Pya', '_blank')">Join Our Discord</button>
+  </section>
+
+  <!-- Staff Team Section -->
+  <section class="staff-team">
+    <h2>Meet Our Staff Team</h2>
+    <div class="staff-list">
+      <div class="staff-member">
+        <img src="https://i.pravatar.cc/100?img=1" alt="Commander Jane" />
+        <h3>Commander Jane</h3>
+        <p>Server Owner</p>
+      </div>
+      <div class="staff-member">
+        <img src="https://i.pravatar.cc/100?img=2" alt="Lieutenant Smith" />
+        <h3>Lieutenant Smith</h3>
+        <p>Lead Moderator</p>
+      </div>
+      <div class="staff-member">
+        <img src="https://i.pravatar.cc/100?img=3" alt="Sergeant Lee" />
+        <h3>Sergeant Lee</h3>
+        <p>Event Coordinator</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Server status box removed -->
+  <div class="status-box">
+    <!-- Hidden with CSS, content removed -->
+  </div>
+
+
+  <footer>
+    &copy; 2025 Operation Freedom Roleplay. All rights reserved.
+  </footer>
+
+  <!-- Discord widget fixed at bottom right -->
+  <div class="discord-widget-wrapper">
+    <iframe src="https://ptb.discord.com/widget?id=1180744453955256411&theme=dark" 
+      width="350" height="500" allowtransparency="true" frameborder="0" 
+      sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+  </div>
+
+</body>
+</html>
