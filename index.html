@@ -105,6 +105,12 @@ footer {
       width="350" height="500" allowtransparency="true" frameborder="0" 
       sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
   </div>
+  <script>
+  const timestamp = Date.now();
+  document.body.style.background = `url('img.png?v=${timestamp}') no-repeat center center fixed`;
+  document.body.style.backgroundSize = "cover";
+</script>
+
 
 </body>
 </html>

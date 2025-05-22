@@ -9,7 +9,7 @@
 body {
   margin: 0;
   font-family: 'Rajdhani', sans-serif;
-  background: url('img.png') no-repeat center center fixed;
+  background: url('img.png?v=2') no-repeat center center fixed;
   background-size: cover;
   color: var(--light-text);
   overflow-x: hidden;
