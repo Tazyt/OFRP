@@ -93,6 +93,37 @@ footer {
   <div class="status-box">
     <!-- Hidden with CSS, content removed -->
   </div>
+  <div class="mp3-player">
+  <audio id="audio" preload="metadata"></audio>
+
+  <div class="controls">
+    <button id="prev" class="control-btn"><span>&laquo;</span></button>
+    <button id="play" class="control-btn"><span>▶</span></button>
+    <button id="next" class="control-btn"><span>&raquo;</span></button>
+  </div>
+
+  <div class="track-info">
+    <span id="track-title">Loading...</span>
+  </div>
+
+  <div class="sliders">
+    <div class="slider-container">
+      <label for="progress">Track Progress:</label>
+      <input type="range" id="progress" class="progress-bar" value="0">
+    </div>
+    
+    <div class="slider-container">
+      <label for="volume">Volume:</label>
+      <input type="range" id="volume" class="volume-slider" min="0" max="1" step="0.01" value="0.8">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 
 
   <footer>
@@ -106,10 +137,75 @@ footer {
       sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
   </div>
   <script>
-  const timestamp = Date.now();
-  document.body.style.background = `url('img.png?v=${timestamp}') no-repeat center center fixed`;
-  document.body.style.backgroundSize = "cover";
+  const audio = document.getElementById("audio");
+  const playBtn = document.getElementById("play");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+  const progress = document.getElementById("progress");
+  const volume = document.getElementById("volume");
+  const titleDisplay = document.getElementById("track-title");
+
+  const playlist = [
+    "music/Lil Peep & Lil Tracy - pain (feat. Slug Christ) (Official Audio).mp3",
+    "music/track2.mp3",
+    "music/track3.mp3"
+  ];
+
+  let currentIndex = 0;
+
+  function loadTrack(index) {
+    audio.src = playlist[index];
+    audio.load();
+    audio.volume = volume.value;
+    titleDisplay.textContent = decodeURIComponent(playlist[index].split("/").pop().replace(/\.mp3$/, ""));
+  }
+
+  function playPause() {
+    if (audio.paused) {
+      audio.play();
+      playBtn.innerHTML = "<span>⏸</span>";
+    } else {
+      audio.pause();
+      playBtn.innerHTML = "<span>▶</span>";
+    }
+  }
+
+  playBtn.addEventListener("click", playPause);
+
+  prevBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+    loadTrack(currentIndex);
+    audio.play();
+    playBtn.innerHTML = "<span>⏸</span>";
+  });
+
+  nextBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % playlist.length;
+    loadTrack(currentIndex);
+    audio.play();
+    playBtn.innerHTML = "<span>⏸</span>";
+  });
+
+  volume.addEventListener("input", () => {
+    audio.volume = volume.value;
+  });
+
+  audio.addEventListener("timeupdate", () => {
+    progress.value = (audio.currentTime / audio.duration) * 100 || 0;
+  });
+
+  progress.addEventListener("input", () => {
+    audio.currentTime = (progress.value / 100) * audio.duration;
+  });
+
+  audio.addEventListener("ended", () => {
+    nextBtn.click();
+  });
+
+  loadTrack(currentIndex);
 </script>
+
+
 
 
 </body>
