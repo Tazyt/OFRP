@@ -548,3 +548,8 @@ body {
   box-shadow: 0 0 10px #ff0033;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+

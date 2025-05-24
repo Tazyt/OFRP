@@ -65,7 +65,7 @@
     .status-card {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 15px;
     }
 
     .status-row {
@@ -76,6 +76,13 @@
       border-left: 4px solid #ff3c3c;
       border-radius: 8px;
       font-size: 1.1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+
+    .status-row:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 10px #ff3c3c80;
     }
 
     .status-indicator.online {
@@ -115,6 +122,22 @@
   </section>
 
   <script>
+    function animateValue(element, start, end, duration) {
+      const range = end - start;
+      let current = start;
+      const increment = range / (duration / 16);
+      const step = () => {
+        current += increment;
+        if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+          element.textContent = end;
+        } else {
+          element.textContent = Math.round(current);
+          requestAnimationFrame(step);
+        }
+      };
+      requestAnimationFrame(step);
+    }
+
     async function fetchServerStatus() {
       try {
         const response = await fetch("https://servers-frontend.fivem.net/api/servers/single/yzvj39");
@@ -125,8 +148,12 @@
         document.getElementById("server-link").innerHTML = info?.connectEndPoints?.[0]
           ? `<a class="server-link" href="fivem://connect/${info.connectEndPoints[0]}" target="_blank">${info.connectEndPoints[0]}</a>`
           : "Unavailable";
-        document.getElementById("player-count").textContent = `${info?.clients ?? 0}`;
-        document.getElementById("max-players").textContent = `${info?.sv_maxclients ?? "--"}`;
+
+        const currentPlayers = parseInt(document.getElementById("player-count").textContent) || 0;
+        const maxPlayers = parseInt(document.getElementById("max-players").textContent) || 0;
+
+        animateValue(document.getElementById("player-count"), currentPlayers, info?.clients ?? 0, 600);
+        animateValue(document.getElementById("max-players"), maxPlayers, info?.sv_maxclients ?? 0, 600);
 
         const statusEl = document.getElementById("server-status");
         statusEl.textContent = "Online";
@@ -136,8 +163,9 @@
         console.error("Error fetching server status:", error);
         document.getElementById("server-name").textContent = "Unavailable";
         document.getElementById("server-link").textContent = "Unavailable";
-        document.getElementById("player-count").textContent = "0";
-        document.getElementById("max-players").textContent = "--";
+
+        animateValue(document.getElementById("player-count"), parseInt(document.getElementById("player-count").textContent) || 0, 0, 600);
+        animateValue(document.getElementById("max-players"), parseInt(document.getElementById("max-players").textContent) || 0, 0, 600);
 
         const statusEl = document.getElementById("server-status");
         statusEl.textContent = "Offline";
