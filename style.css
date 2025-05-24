@@ -552,4 +552,51 @@ html {
   scroll-behavior: smooth;
 }
 
+/* CUSTOMC CROSSHAIR */
+/* Hide the default cursor */
+body, a, button {
+  cursor: none;
+}
 
+/* The custom cursor elements */
+.cursor, .cursor-follower {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: background-color 0.3s ease, transform 0.15s ease;
+  z-index: 2000;
+}
+
+.cursor {
+  width: 8px;
+  height: 8px;
+  background: var(--red);
+  box-shadow: 0 0 8px var(--red);
+}
+
+.cursor-follower {
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--red);
+  box-shadow: 0 0 15px var(--red);
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+/* On hover scale up */
+a:hover ~ .cursor,
+button:hover ~ .cursor,
+a:hover ~ .cursor-follower,
+button:hover ~ .cursor-follower {
+  transform: translate(-50%, -50%) scale(1.6);
+  background-color: #ff4c4c;
+  border-color: #ff4c4c;
+  box-shadow: 0 0 20px #ff4c4c;
+  opacity: 0.9;
+}
+
+* {
+  cursor: none !important;
+}

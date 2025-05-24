@@ -24,29 +24,74 @@
     }
 
     html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      cursor: none; /* Hide default cursor globally */
+    }
 
-body {
-  flex: 1;
-}
+    body {
+      flex: 1;
+    }
 
-main {
-  flex: 1; /* Pushes the footer down */
-}
+    main {
+      flex: 1; /* Pushes the footer down */
+    }
 
-footer {
-  margin-top: auto;
-  background-color: #111;
-  color: #fff;
-  text-align: center;
-  padding: 15px 0;
-}
+    footer {
+      margin-top: auto;
+      background-color: #111;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+    }
 
+    /* Custom neon red smooth trailing cursor styles */
+
+    /* Hide default cursor on links and buttons explicitly */
+    a, button {
+      cursor: none;
+    }
+
+    .cursor, .cursor-follower {
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: background-color 0.3s ease, transform 0.15s ease;
+      z-index: 2000;
+    }
+
+    .cursor {
+      width: 8px;
+      height: 8px;
+      background: var(--red, #c62828); /* fallback to a red */
+      box-shadow: 0 0 8px var(--red, #c62828);
+    }
+
+    .cursor-follower {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--red, #c62828);
+      box-shadow: 0 0 15px var(--red, #c62828);
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+
+    /* On hover scale up */
+    a:hover ~ .cursor,
+    button:hover ~ .cursor,
+    a:hover ~ .cursor-follower,
+    button:hover ~ .cursor-follower {
+      transform: translate(-50%, -50%) scale(1.6);
+      background-color: #ff4c4c;
+      border-color: #ff4c4c;
+      box-shadow: 0 0 20px #ff4c4c;
+      opacity: 0.9;
+    }
   </style>
 </head>
 <body>
@@ -94,37 +139,30 @@ footer {
     <!-- Hidden with CSS, content removed -->
   </div>
   <div class="mp3-player">
-  <audio id="audio" preload="metadata"></audio>
+    <audio id="audio" preload="metadata"></audio>
 
-  <div class="controls">
-    <button id="prev" class="control-btn"><span>&laquo;</span></button>
-    <button id="play" class="control-btn"><span>▶</span></button>
-    <button id="next" class="control-btn"><span>&raquo;</span></button>
-  </div>
-
-  <div class="track-info">
-    <span id="track-title">Loading...</span>
-  </div>
-
-  <div class="sliders">
-    <div class="slider-container">
-      <label for="progress">Track Progress:</label>
-      <input type="range" id="progress" class="progress-bar" value="0">
+    <div class="controls">
+      <button id="prev" class="control-btn"><span>&laquo;</span></button>
+      <button id="play" class="control-btn"><span>▶</span></button>
+      <button id="next" class="control-btn"><span>&raquo;</span></button>
     </div>
-    
-    <div class="slider-container">
-      <label for="volume">Volume:</label>
-      <input type="range" id="volume" class="volume-slider" min="0" max="1" step="0.01" value="0.8">
+
+    <div class="track-info">
+      <span id="track-title">Loading...</span>
+    </div>
+
+    <div class="sliders">
+      <div class="slider-container">
+        <label for="progress">Track Progress:</label>
+        <input type="range" id="progress" class="progress-bar" value="0">
+      </div>
+      
+      <div class="slider-container">
+        <label for="volume">Volume:</label>
+        <input type="range" id="volume" class="volume-slider" min="0" max="1" step="0.01" value="0.8">
+      </div>
     </div>
   </div>
-</div>
-
-
-
-
-
-
-
 
   <footer>
     &copy; 2025 Operation Freedom Roleplay. All rights reserved.
@@ -136,76 +174,99 @@ footer {
       width="350" height="500" allowtransparency="true" frameborder="0" 
       sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
   </div>
+
+  <!-- Custom Cursor Elements -->
+  <div class="cursor"></div>
+  <div class="cursor-follower"></div>
+
   <script>
-  const audio = document.getElementById("audio");
-  const playBtn = document.getElementById("play");
-  const prevBtn = document.getElementById("prev");
-  const nextBtn = document.getElementById("next");
-  const progress = document.getElementById("progress");
-  const volume = document.getElementById("volume");
-  const titleDisplay = document.getElementById("track-title");
+    const audio = document.getElementById("audio");
+    const playBtn = document.getElementById("play");
+    const prevBtn = document.getElementById("prev");
+    const nextBtn = document.getElementById("next");
+    const progress = document.getElementById("progress");
+    const volume = document.getElementById("volume");
+    const titleDisplay = document.getElementById("track-title");
 
-  const playlist = [
-    "music/Lil Peep & Lil Tracy - pain (feat. Slug Christ) (Official Audio).mp3",
-    "music/5ive - Me And My Brother.mp3",
-    "music/track3.mp3"
-  ];
+    const playlist = [
+      "music/Lil Peep & Lil Tracy - pain (feat. Slug Christ) (Official Audio).mp3",
+      "music/5ive - Me And My Brother.mp3",
+      "music/track3.mp3"
+    ];
 
-  let currentIndex = 0;
+    let currentIndex = 0;
 
-  function loadTrack(index) {
-    audio.src = playlist[index];
-    audio.load();
-    audio.volume = volume.value;
-    titleDisplay.textContent = decodeURIComponent(playlist[index].split("/").pop().replace(/\.mp3$/, ""));
-  }
+    function loadTrack(index) {
+      audio.src = playlist[index];
+      audio.load();
+      audio.volume = volume.value;
+      titleDisplay.textContent = decodeURIComponent(playlist[index].split("/").pop().replace(/\.mp3$/, ""));
+    }
 
-  function playPause() {
-    if (audio.paused) {
+    function playPause() {
+      if (audio.paused) {
+        audio.play();
+        playBtn.innerHTML = "<span>⏸</span>";
+      } else {
+        audio.pause();
+        playBtn.innerHTML = "<span>▶</span>";
+      }
+    }
+
+    playBtn.addEventListener("click", playPause);
+
+    prevBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+      loadTrack(currentIndex);
       audio.play();
       playBtn.innerHTML = "<span>⏸</span>";
-    } else {
-      audio.pause();
-      playBtn.innerHTML = "<span>▶</span>";
+    });
+
+    nextBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % playlist.length;
+      loadTrack(currentIndex);
+      audio.play();
+      playBtn.innerHTML = "<span>⏸</span>";
+    });
+
+    volume.addEventListener("input", () => {
+      audio.volume = volume.value;
+    });
+
+    audio.addEventListener("timeupdate", () => {
+      progress.value = (audio.currentTime / audio.duration) * 100 || 0;
+    });
+
+    progress.addEventListener("input", () => {
+      audio.currentTime = (progress.value / 100) * audio.duration;
+    });
+
+    audio.addEventListener("ended", () => {
+      nextBtn.click();
+    });
+
+    loadTrack(currentIndex);
+
+    // Custom Cursor Script
+    const cursor = document.querySelector('.cursor');
+    const follower = document.querySelector('.cursor-follower');
+
+    let mouseX = 0, mouseY = 0;
+    let posX = 0, posY = 0;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+    });
+
+    function animate() {
+      posX += (mouseX - posX) * 0.15;
+      posY += (mouseY - posY) * 0.15;
+      follower.style.transform = `translate(${posX}px, ${posY}px) translate(-50%, -50%)`;
+      requestAnimationFrame(animate);
     }
-  }
-
-  playBtn.addEventListener("click", playPause);
-
-  prevBtn.addEventListener("click", () => {
-    currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-    loadTrack(currentIndex);
-    audio.play();
-    playBtn.innerHTML = "<span>⏸</span>";
-  });
-
-  nextBtn.addEventListener("click", () => {
-    currentIndex = (currentIndex + 1) % playlist.length;
-    loadTrack(currentIndex);
-    audio.play();
-    playBtn.innerHTML = "<span>⏸</span>";
-  });
-
-  volume.addEventListener("input", () => {
-    audio.volume = volume.value;
-  });
-
-  audio.addEventListener("timeupdate", () => {
-    progress.value = (audio.currentTime / audio.duration) * 100 || 0;
-  });
-
-  progress.addEventListener("input", () => {
-    audio.currentTime = (progress.value / 100) * audio.duration;
-  });
-
-  audio.addEventListener("ended", () => {
-    nextBtn.click();
-  });
-
-  loadTrack(currentIndex);
-</script>
-
-
-
+    animate();
+  </script>
 </body>
 </html>

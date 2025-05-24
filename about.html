@@ -4,19 +4,102 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About | Operation Freedom RP</title>
-  <link rel="stylesheet" href="style.css?v=1.0.1">
+  <link rel="stylesheet" href="style.css?v=1.0.2">
   <style>
+    :root {
+      --red: #c62828;
+      --font-title: 'Orbitron', sans-serif;
+      --font-body: 'Rajdhani', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      background: url('img.png') no-repeat center center fixed;
+      color: #fff;
+    }
+
+    header {
+      padding: 20px;
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: 2rem;
+      color: var(--red);
+      text-shadow: 0 0 10px var(--red);
+      background: #111;
+      border-bottom: 2px solid var(--red);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 15px;
+      background: #111;
+      border-bottom: 1px solid #222;
+    }
+
+    nav a {
+      color: #bbb;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--red);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    nav a:hover::after {
+      transform: scaleX(1);
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px 30px;
+      background: radial-gradient(circle at top, rgba(198, 40, 40, 0.2), transparent);
+      animation: fadeIn 1s ease;
+    }
+
+    .hero h1 {
+      font-family: var(--font-title);
+      font-size: 3rem;
+      color: var(--red);
+      text-shadow: 0 0 15px var(--red);
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #ddd;
+    }
+
     .about-section {
       max-width: 1000px;
-      margin: 60px auto;
-      padding: 40px 20px;
+      margin: 40px auto;
+      padding: 40px 30px;
       background: rgba(10, 10, 10, 0.85);
       border-radius: 16px;
-      box-shadow: 0 0 25px var(--red), inset 0 0 40px rgba(198, 40, 40, 0.3);
+      box-shadow: 0 0 25px var(--red), inset 0 0 40px rgba(198, 40, 40, 0.2);
+      animation: fadeIn 1.2s ease;
     }
 
     .about-section h2 {
-      font-size: 2.4rem;
+      font-size: 2rem;
       margin-bottom: 15px;
       color: var(--red);
       font-family: var(--font-title);
@@ -29,6 +112,7 @@
       line-height: 1.7;
       color: #ccc;
       margin-bottom: 25px;
+      text-align: justify;
     }
 
     .about-section ul {
@@ -38,6 +122,30 @@
 
     .about-section ul li {
       margin-bottom: 10px;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .about-section ul li:hover {
+      color: var(--red);
+      transform: translateX(5px);
+    }
+
+    a {
+      color: var(--red);
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #ff4c4c;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #111;
+      color: #999;
+      border-top: 1px solid #222;
+      margin-top: 40px;
     }
 
     .discord-widget-wrapper {
@@ -51,12 +159,16 @@
       overflow: hidden;
       z-index: 1000;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
-  <header>
-    Operation Freedom Roleplay
-  </header>
+
+  <header>Operation Freedom Roleplay</header>
 
   <nav>
     <a href="index.html">Home</a>
@@ -69,30 +181,33 @@
     <h1>About Operation Freedom</h1>
     <p>Unleashing tactical immersion and military precision in the world of FiveM RP.</p>
   </section>
+  <div class="cursor"></div>
+<div class="cursor-follower"></div>
+
 
   <section class="about-section">
     <h2>What is Operation Freedom?</h2>
-    <p>Operation Freedom Roleplay is a 18+ Whitelisted FiveM server not only for people to come in and create stories and memories with friends and maybe even family operation freedom roleplay was created to honor our fallen heros of the U.S Armed Forces and other Emergancy Services from veterans who died serving this country with unmatched strength and passion for ol glory bleeding for our freedoms making sure we as a country is safe from harm operation freedom is and always be a home to all to those in need of a place where they are respected and loved regardless of race, religion, color, creed or sexual orientation all is welcomed with open arms so come on down to operation freedom roleplay if you think you can handle the pressure of creating a bond with someone and being true to who you are.</p>
+    <p>Operation Freedom Roleplay is an 18+ Whitelisted FiveM server where players create unforgettable stories. Founded in honor of fallen U.S. Armed Forces members and emergency responders, our community is built on respect, integrity, and unity. We welcome everyone—regardless of background—to a place where you're valued and free to be yourself. If you’re ready for authentic bonds, tactical gameplay, and powerful roleplay, Operation Freedom awaits.</p>
 
     <h2>What Sets Us Apart</h2>
     <ul>
-    <li><strong>Custom Scripts:</strong> Unique gameplay systems tailored for an immersive roleplay experience.</li>
-    <li><strong>Extensive Vehicle Fleet:</strong> Over 1,000 custom vehicles to enhance realism and variety.</li>
-    <li><strong>Custom MLOs:</strong> Handcrafted interiors and environments that bring the world to life.</li>
-    <li><strong>And Much More:</strong> Continually evolving features designed to keep the experience fresh and engaging.</li>
+      <li><strong>Custom Scripts:</strong> Built for deep immersion and unique interactions.</li>
+      <li><strong>Extensive Vehicle Fleet:</strong> Over 1,000 vehicles for unmatched realism.</li>
+      <li><strong>Custom MLOs:</strong> Immersive, handcrafted interiors and detailed environments.</li>
+      <li><strong>Community-Driven:</strong> Evolving features shaped by player feedback and innovation.</li>
     </ul>
 
     <h2>Features</h2>
     <ul>
-      <li>Custom MLO's / Hangout Places</li>
-      <li>Unique Missions And Scripts</li>
-      <li>Whitelisted Jobs</li>
-      <li>Realistic Weapon Handling And Tactical Gear</li>
-      <li>Custom Made Livery's / EUP</li>
+      <li>Exclusive MLOs & social hubs</li>
+      <li>Mission-driven roleplay with custom scripts</li>
+      <li>Whitelisted jobs with real responsibilities</li>
+      <li>Realistic weapon mechanics & tactical loadouts</li>
+      <li>Custom liveries, uniforms (EUP), and much more</li>
     </ul>
 
     <h2>Get Involved</h2>
-    <p>Ready to join the fight? Head over to our <a href="index.html" style="color: var(--red); text-decoration: underline;">home page</a> to see live server status or jump straight into our <a href="https://discord.gg/KKkZgq6Pya" target="_blank" style="color: var(--red); text-decoration: underline;">Discord</a> to apply and connect with the community.</p>
+    <p>Ready to join? Visit our <a href="index.html">home page</a> for live server info or head straight to our <a href="https://discord.gg/KKkZgq6Pya" target="_blank">Discord</a> to apply and connect with our community.</p>
   </section>
 
   <footer>
@@ -100,9 +215,32 @@
   </footer>
 
   <div class="discord-widget-wrapper">
-    <iframe src="https://ptb.discord.com/widget?id=1180744453955256411&theme=dark" 
-      width="350" height="500" allowtransparency="true" frameborder="0" 
+    <iframe src="https://ptb.discord.com/widget?id=1180744453955256411&theme=dark"
+      width="350" height="500" allowtransparency="true" frameborder="0"
       sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
   </div>
+  <script>
+    const cursor = document.querySelector('.cursor');
+const follower = document.querySelector('.cursor-follower');
+
+let mouseX = 0, mouseY = 0;
+let posX = 0, posY = 0;
+
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursor.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+});
+
+function animate() {
+  posX += (mouseX - posX) * 0.15;
+  posY += (mouseY - posY) * 0.15;
+  follower.style.transform = `translate(${posX}px, ${posY}px) translate(-50%, -50%)`;
+  requestAnimationFrame(animate);
+}
+animate();
+
+  </script>
+
 </body>
 </html>
