@@ -181,8 +181,10 @@
     <h1>About Operation Freedom</h1>
     <p>Unleashing tactical immersion and military precision in the world of FiveM RP.</p>
   </section>
+
+   <!-- Custom Cursor Elements -->
   <div class="cursor"></div>
-<div class="cursor-follower"></div>
+  <div class="cursor-follower"></div>
 
 
   <section class="about-section">
@@ -220,26 +222,26 @@
       sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
   </div>
   <script>
+    // Custom Cursor Script
     const cursor = document.querySelector('.cursor');
-const follower = document.querySelector('.cursor-follower');
+    const follower = document.querySelector('.cursor-follower');
 
-let mouseX = 0, mouseY = 0;
-let posX = 0, posY = 0;
+    let mouseX = 0, mouseY = 0;
+    let posX = 0, posY = 0;
 
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  cursor.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-});
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+    });
 
-function animate() {
-  posX += (mouseX - posX) * 0.15;
-  posY += (mouseY - posY) * 0.15;
-  follower.style.transform = `translate(${posX}px, ${posY}px) translate(-50%, -50%)`;
-  requestAnimationFrame(animate);
-}
-animate();
-
+    function animate() {
+      posX += (mouseX - posX) * 0.15;
+      posY += (mouseY - posY) * 0.15;
+      follower.style.transform = `translate(${posX}px, ${posY}px) translate(-50%, -50%)`;
+      requestAnimationFrame(animate);
+    }
+    animate();
   </script>
 
 </body>
