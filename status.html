@@ -6,8 +6,13 @@
   <title>Server Status | Operation Freedom RP</title>
   <link rel="stylesheet" href="style.css?v=1.0.1">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -72,11 +77,37 @@
     .status-row {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       background-color: #1a1a1a;
       padding: 12px 20px;
       border-left: 4px solid #ff3c3c;
       border-radius: 8px;
       font-size: 1.1rem;
+      gap: 10px;
+    }
+
+    .status-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .status-left span:first-child {
+      color: #ff3c3c;
+      font-size: 1.2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 25px;
+    }
+
+    .status-value {
+      flex-shrink: 0;
+      min-width: 100px;
+      text-align: right;
+      color: #fff;
+      word-break: break-word;
     }
 
     .status-indicator.online {
@@ -131,11 +162,41 @@
   <section class="server-status-section">
     <h2>🛰️ Main Roleplay Server Status</h2>
     <div class="status-card">
-      <div class="status-row"><span>🔗 Server Name:</span> <span id="server-name">Loading...</span></div>
-      <div class="status-row"><span>🌐 Join Link:</span> <span id="server-link">Loading...</span></div>
-      <div class="status-row"><span>🧑‍🤝‍🧑 Players Online:</span> <span id="player-count">--</span></div>
-      <div class="status-row"><span>🎯 Max Players:</span> <span id="max-players">--</span></div>
-      <div class="status-row"><span>📶 Status:</span> <span id="server-status" class="status-indicator">Loading...</span></div>
+      <div class="status-row">
+        <div class="status-left">
+          <span><i class="fas fa-server"></i></span>
+          <span>Server Name:</span>
+        </div>
+        <div class="status-value" id="server-name">Loading...</div>
+      </div>
+      <div class="status-row">
+        <div class="status-left">
+          <span><i class="fas fa-link"></i></span>
+          <span>Join Link:</span>
+        </div>
+        <div class="status-value" id="server-link">Loading...</div>
+      </div>
+      <div class="status-row">
+        <div class="status-left">
+          <span><i class="fas fa-users"></i></span>
+          <span>Players Online:</span>
+        </div>
+        <div class="status-value" id="player-count">--</div>
+      </div>
+      <div class="status-row">
+        <div class="status-left">
+          <span><i class="fas fa-bullseye"></i></span>
+          <span>Max Players:</span>
+        </div>
+        <div class="status-value" id="max-players">--</div>
+      </div>
+      <div class="status-row">
+        <div class="status-left">
+          <span><i class="fas fa-signal"></i></span>
+          <span>Status:</span>
+        </div>
+        <div class="status-value status-indicator" id="server-status">Loading...</div>
+      </div>
     </div>
     <canvas id="playerGraph" width="600" height="250"></canvas>
   </section>
@@ -258,9 +319,8 @@
     follower.style.transform = `translate(${currentX}px, ${currentY}px) translate(-50%, -50%)`;
     requestAnimationFrame(animateCursor);
   }
-
   animateCursor();
-</script>
+  </script>
 
 </body>
 </html>
