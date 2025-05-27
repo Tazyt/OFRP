@@ -6,6 +6,8 @@
   <title>Server Status | Operation Freedom RP</title>
   <link rel="stylesheet" href="style.css?v=1.0.1">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
   <style>
     body {
       margin: 0;
@@ -15,7 +17,7 @@
       opacity: 0;
       transform: translateY(20px);
       animation: fadeInUp 0.6s ease-out forwards;
-      cursor: none; /* Hide default cursor */
+      cursor: none;
     }
 
     @keyframes fadeInUp {
@@ -46,7 +48,7 @@
     }
 
     .server-status-section {
-      max-width: 600px;
+      max-width: 700px;
       margin: 80px auto;
       background-color: #111;
       padding: 30px;
@@ -87,7 +89,10 @@
       font-weight: bold;
     }
 
-    /* Custom neon red smooth trailing cursor styles */
+    canvas {
+      margin-top: 40px;
+    }
+
     .cursor, .cursor-follower {
       position: fixed;
       top: 0; left: 0;
@@ -112,7 +117,6 @@
       box-shadow: 0 0 15px #c62828;
       opacity: 0.6;
     }
-
   </style>
 </head>
 <body>
@@ -125,7 +129,7 @@
   </nav>
 
   <section class="server-status-section">
-    <h2>🛰️ FiveM Server Status</h2>
+    <h2>🛰️ Main Roleplay Server Status</h2>
     <div class="status-card">
       <div class="status-row"><span>🔗 Server Name:</span> <span id="server-name">Loading...</span></div>
       <div class="status-row"><span>🌐 Join Link:</span> <span id="server-link">Loading...</span></div>
@@ -133,27 +137,63 @@
       <div class="status-row"><span>🎯 Max Players:</span> <span id="max-players">--</span></div>
       <div class="status-row"><span>📶 Status:</span> <span id="server-status" class="status-indicator">Loading...</span></div>
     </div>
+    <canvas id="playerGraph" width="600" height="250"></canvas>
   </section>
 
-  <!-- Custom Cursor Elements -->
   <div class="cursor"></div>
   <div class="cursor-follower"></div>
 
   <script>
-  function animateValue(element, start, end, duration) {
-    const range = end - start;
-    let current = start;
-    const increment = range / (duration / 16);
-    const step = () => {
-      current += increment;
-      if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
-        element.textContent = end;
-      } else {
-        element.textContent = Math.round(current);
-        requestAnimationFrame(step);
+  const ctx = document.getElementById('playerGraph').getContext('2d');
+  const playerData = {
+    labels: [],
+    datasets: [{
+      label: 'Players Online',
+      data: [],
+      borderColor: '#ff3c3c',
+      backgroundColor: 'rgba(255, 60, 60, 0.2)',
+      tension: 0.4,
+      fill: true,
+    }]
+  };
+
+  const playerChart = new Chart(ctx, {
+    type: 'line',
+    data: playerData,
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          ticks: { color: '#fff' },
+          grid: { color: 'rgba(255,255,255,0.1)' },
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { color: '#fff' },
+          grid: { color: 'rgba(255,255,255,0.1)' },
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: '#fff'
+          }
+        }
+      }
+    }
+  });
+
+  function animateValue(el, start, end, duration) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      el.textContent = Math.floor(progress * (end - start) + start);
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
       }
     };
-    requestAnimationFrame(step);
+    window.requestAnimationFrame(step);
   }
 
   async function fetchServerStatus() {
@@ -170,20 +210,36 @@
       animateValue(document.getElementById("player-count"), 0, info?.clients ?? 0, 600);
       animateValue(document.getElementById("max-players"), 0, info?.sv_maxclients ?? 0, 600);
 
-      document.getElementById("server-status").textContent = "Online";
-      document.getElementById("server-status").classList.remove("offline");
-      document.getElementById("server-status").classList.add("online");
+      const statusEl = document.getElementById("server-status");
+      statusEl.textContent = "Online";
+      statusEl.classList.remove("offline");
+      statusEl.classList.add("online");
+
+      updateGraph(info?.clients ?? 0);
     } catch (error) {
-      document.getElementById("server-status").textContent = "Offline";
-      document.getElementById("server-status").classList.remove("online");
-      document.getElementById("server-status").classList.add("offline");
+      const statusEl = document.getElementById("server-status");
+      statusEl.textContent = "Offline";
+      statusEl.classList.remove("online");
+      statusEl.classList.add("offline");
+      updateGraph(0);
     }
   }
 
-  fetchServerStatus();
-  setInterval(fetchServerStatus, 60000);
+  function updateGraph(players) {
+    const now = new Date().toLocaleTimeString();
+    if (playerData.labels.length > 20) {
+      playerData.labels.shift();
+      playerData.datasets[0].data.shift();
+    }
+    playerData.labels.push(now);
+    playerData.datasets[0].data.push(players);
+    playerChart.update();
+  }
 
-  // Custom Cursor Script (Fixed)
+  fetchServerStatus();
+  setInterval(fetchServerStatus, 60000); // Every 60 seconds
+
+  // Custom Cursor Animation
   const cursor = document.querySelector('.cursor');
   const follower = document.querySelector('.cursor-follower');
 
@@ -205,7 +261,6 @@
 
   animateCursor();
 </script>
-
 
 </body>
 </html>
